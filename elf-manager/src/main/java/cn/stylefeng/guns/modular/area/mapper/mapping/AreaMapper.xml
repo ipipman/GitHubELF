@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.area.mapper.AreaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.area.entity.Area">
+        <id column="id" property="id" />
+        <result column="pid" property="pid" />
+        <result column="name" property="name" />
+        <result column="pinyin" property="pinyin" />
+        <result column="level" property="level" />
+        <result column="areatype" property="areatype" />
+        <result column="type_name" property="typeName" />
+        <result column="status" property="status" />
+        <result column="pid_name" property="pidName" />
+        <result column="area_id" property="areaId" />
+        <result column="code" property="code" />
+        <result column="destination_id" property="destinationId" />
+        <result column="pv" property="pv" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id AS "id", pid AS "pid", name AS "name", pinyin AS "pinyin", level AS "level", areatype AS "areatype", type_name AS "typeName", status AS "status", pid_name AS "pidName", area_id AS "areaId", code AS "code", destination_id AS "destinationId", pv AS "pv"
+    </sql>
+
+
+    <select id="customList" resultType="cn.stylefeng.guns.modular.area.model.result.AreaResult" parameterType="cn.stylefeng.guns.modular.area.model.params.AreaParam">
+        select
+        <include refid="Base_Column_List"/>
+        from t_area where 1 = 1
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.area.model.params.AreaParam">
+        select
+        <include refid="Base_Column_List"/>
+        from t_area where 1 = 1
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.modular.area.model.result.AreaResult" parameterType="cn.stylefeng.guns.modular.area.model.params.AreaParam">
+        select
+        <include refid="Base_Column_List"/>
+        from t_area where 1 = 1
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.area.model.params.AreaParam">
+        select
+        <include refid="Base_Column_List"/>
+        from t_area where 1 = 1
+    </select>
+
+</mapper>

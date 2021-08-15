@@ -1,15 +1,20 @@
 /**
- * 详情对话框
+ * 添加或者修改页面
  */
-var JsInfoDlg = {
+var AreaInfoDlg = {
     data: {
-        jsName: "",
-        jsText: "",
-        isDel: "",
-        createTime: "",
-        updateTime: "",
-        deleteTime: "",
-        creatorName: ""
+        pid: "",
+        name: "",
+        pinyin: "",
+        level: "",
+        areatype: "",
+        typeName: "",
+        status: "",
+        pidName: "",
+        areaId: "",
+        code: "",
+        destinationId: "",
+        pv: ""
     }
 };
 
@@ -22,15 +27,10 @@ layui.use(['form', 'admin', 'ax'], function () {
     //让当前iframe弹层高度适应
     admin.iframeAuto();
 
-    //获取详情信息，填充表单
-    var ajax = new $ax(Feng.ctxPath + "/js/detail?id=" + Feng.getUrlParam("id"));
-    var result = ajax.start();
-    form.val('jsForm', result.data);
-
     //表单提交事件
     form.on('submit(btnSubmit)', function (data) {
-        var ajax = new $ax(Feng.ctxPath + "/js/editItem", function (data) {
-            Feng.success("更新成功！");
+        var ajax = new $ax(Feng.ctxPath + "/area/addItem", function (data) {
+            Feng.success("添加成功！");
 
             //传给上个页面，刷新table用
             admin.putTempData('formOk', true);
@@ -39,7 +39,7 @@ layui.use(['form', 'admin', 'ax'], function () {
             admin.closeThisDialog();
 
         }, function (data) {
-            Feng.error("更新失败！" + data.responseJSON.message)
+            Feng.error("添加失败！" + data.responseJSON.message)
         });
         ajax.set(data.field);
         ajax.start();

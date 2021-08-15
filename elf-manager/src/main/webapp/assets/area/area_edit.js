@@ -1,15 +1,20 @@
 /**
  * 详情对话框
  */
-var SaleGroupInfoDlg = {
+var AreaInfoDlg = {
     data: {
-        saleGroupName: "",
-        saleGroupCompany: "",
-        isDel: "",
-        createTime: "",
-        updateTime: "",
-        deleteTime: "",
-        creatorName: ""
+        pid: "",
+        name: "",
+        pinyin: "",
+        level: "",
+        areatype: "",
+        typeName: "",
+        status: "",
+        pidName: "",
+        areaId: "",
+        code: "",
+        destinationId: "",
+        pv: ""
     }
 };
 
@@ -23,17 +28,13 @@ layui.use(['form', 'admin', 'ax'], function () {
     admin.iframeAuto();
 
     //获取详情信息，填充表单
-    var ajax = new $ax(Feng.ctxPath + "/saleGroup/detail?id=" + Feng.getUrlParam("id"));
+    var ajax = new $ax(Feng.ctxPath + "/area/detail?id=" + Feng.getUrlParam("id"));
     var result = ajax.start();
-    form.val('saleGroupForm', result.data);
+    form.val('areaForm', result.data);
 
     //表单提交事件
     form.on('submit(btnSubmit)', function (data) {
-        var ajax = new $ax(Feng.ctxPath + "/saleGroup/editItem", function (data) {
-            if (data.code === 500) {
-                return Feng.error(data.message);
-            }
-
+        var ajax = new $ax(Feng.ctxPath + "/area/editItem", function (data) {
             Feng.success("更新成功！");
 
             //传给上个页面，刷新table用
