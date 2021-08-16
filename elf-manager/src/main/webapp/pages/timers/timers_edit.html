@@ -1,0 +1,87 @@
+@layout("/common/_form.html",{js:["/assets/timers/timers_edit.js"]}){
+
+<form class="layui-form" id="timersForm" lay-filter="timersForm">
+    <div class="layui-fluid" style="padding-bottom: 75px;">
+        <div class="layui-card">
+            <div class="layui-card-header">基本信息</div>
+            <div class="layui-card-body">
+                <div class="layui-form-item layui-row">
+                    <input name="timerId" type="hidden"/>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">任务名称<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="timerName" name="timerName" placeholder="请输入任务名称" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">执行任务的class的类名（实现了TimerAction接口的类的全称）<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="actionClass" name="actionClass" placeholder="请输入执行任务的class的类名（实现了TimerAction接口的类的全称）" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">定时任务表达式<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="cron" name="cron" placeholder="请输入定时任务表达式" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">参数<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="params" name="params" placeholder="请输入参数" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">状态：1-运行，2-停止<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="jobStatus" name="jobStatus" placeholder="请输入状态：1-运行，2-停止" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">备注信息<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="remark" name="remark" placeholder="请输入备注信息" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">是否删除：Y-被删除，N-未删除<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="delFlag" name="delFlag" placeholder="请输入是否删除：Y-被删除，N-未删除" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">创建时间<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="createTime" name="createTime" placeholder="请输入创建时间" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">创建人<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="createUser" name="createUser" placeholder="请输入创建人" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">修改时间<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="updateTime" name="updateTime" placeholder="请输入修改时间" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">修改人<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="updateUser" name="updateUser" placeholder="请输入修改人" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group-bottom text-center">
+        <button class="layui-btn" lay-filter="btnSubmit" lay-submit>&emsp;提交&emsp;</button>
+        <button type="reset" class="layui-btn layui-btn-primary" ew-event="closeDialog">&emsp;取消&emsp;</button>
+    </div>
+
+</form>
+
+@}

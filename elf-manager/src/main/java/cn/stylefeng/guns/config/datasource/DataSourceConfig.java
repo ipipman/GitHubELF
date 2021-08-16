@@ -65,7 +65,7 @@ public class DataSourceConfig {
         atomikosDataSourceBean.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
         atomikosDataSourceBean.setUniqueResourceName(MASTER_DATASOURCE_NAME);
         atomikosDataSourceBean.setMaxPoolSize(100);
-        atomikosDataSourceBean.setBorrowConnectionTimeout(60);
+        atomikosDataSourceBean.setBorrowConnectionTimeout(6000);
 
 
         Properties properties = druidProperties.createProperties();
@@ -73,7 +73,7 @@ public class DataSourceConfig {
         //解决oracle数据库包connection holder is null
         if (druidProperties.getUrl().contains("oracle")) {
             properties.setProperty("removeAbandoned", "true");
-            properties.setProperty("removeAbandonedTimeoutMillis", "10000");
+            properties.setProperty("removeAbandonedTimeoutMillis", "100000");
             properties.setProperty("poolPreparedStatements", "false");
         }
 
