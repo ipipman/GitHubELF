@@ -25,7 +25,7 @@ public class GraphqlClientUtil {
         String json = "{\"query\":\"{ search(query:\\\"location:hangzhou\\\", type: USER, first:10, after:\\\"Y3Vyc29yOjEw\\\") { userCount pageInfo{ startCursor endCursor hasNextPage } edges { node { ... on User { id login avatarUrl email createdAt updatedAt company websiteUrl location bio following { totalCount } followers { totalCount } organizations( first:10) { totalCount nodes { id name avatarUrl websiteUrl } } repositories(first: 5, isFork: false, orderBy: {field: STARGAZERS, direction: DESC}) { totalCount nodes { stargazerCount forkCount isPrivate description repositoryTopics(first: 10) { totalCount nodes { topic { name } } } issues { totalCount } languages(first: 10) { nodes { name } } primaryLanguage{ name } } } } } } } }\"}";
         String serverUrl = "https://api.github.com/graphql";
         Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "bearer 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");
+        headers.put("Authorization", "bearer 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");
         System.out.println(HttpClientUtil.doPostJson(serverUrl, json, headers));
 
 
