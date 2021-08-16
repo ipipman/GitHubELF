@@ -28,6 +28,5 @@ public class GraphqlClientUtil {
         headers.put("Authorization", "bearer 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");
         System.out.println(HttpClientUtil.doPostJson(serverUrl, json, headers));
 
-
     }
 }
