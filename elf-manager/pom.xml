@@ -49,6 +49,31 @@
             <version>3.10-FINAL</version>
         </dependency>
 
+        <!--spring boot 版本 2.xxx-->
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java-tools</artifactId>
+            <version>5.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphiql-spring-boot-starter</artifactId>
+            <version>7.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mountcloud</groupId>
+            <artifactId>graphql-client</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.8.1</version>
+        </dependency>
     </dependencies>
 
     <build>

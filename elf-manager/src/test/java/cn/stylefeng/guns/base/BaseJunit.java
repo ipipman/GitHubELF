@@ -1,7 +1,11 @@
 package cn.stylefeng.guns.base;
 
 import cn.stylefeng.guns.ElfApplication;
+import cn.stylefeng.guns.modular.job.handler.SyncGitHubUserHandler;
+import cn.stylefeng.guns.modular.job.utils.GraphqlClientUtil;
+import lombok.SneakyThrows;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,4 +41,14 @@ public class BaseJunit {
     @Before
     public void initDatabase() {
     }
+
+    @Autowired
+    private SyncGitHubUserHandler syncGitHubUserHandler;
+
+    @Test
+    @SneakyThrows
+    public void testSyncGitHubUserHandler() {
+        GraphqlClientUtil.test();
+    }
+
 }
