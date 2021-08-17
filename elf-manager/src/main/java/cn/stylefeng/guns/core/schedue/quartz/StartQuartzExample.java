@@ -38,5 +38,7 @@ public class StartQuartzExample implements CommandLineRunner {
             System.out.println("创建定时任务失败" + e);
             throw new Exception("创建定时任务失败");
         }
+
+
     }
 }

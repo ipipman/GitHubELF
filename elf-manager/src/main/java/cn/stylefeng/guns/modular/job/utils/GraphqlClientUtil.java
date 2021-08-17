@@ -27,5 +27,6 @@ public class GraphqlClientUtil {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", "bearer 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");
         System.out.println(HttpClientUtil.doPostJson(serverUrl, json, headers));
+
     }
 }

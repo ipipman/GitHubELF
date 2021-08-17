@@ -3,7 +3,11 @@ package cn.stylefeng.guns.base;
 import cn.stylefeng.guns.ElfApplication;
 import cn.stylefeng.guns.modular.job.handler.SyncGitHubUserHandler;
 import cn.stylefeng.guns.modular.job.utils.GraphqlClientUtil;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import lombok.SneakyThrows;
+import org.hibernate.validator.constraints.Length;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +18,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.annotation.Resource;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validator;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 
 /**
