@@ -2,6 +2,8 @@ package cn.stylefeng.guns.modular.job.entity.resp;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Created by ipipman on 2021/8/18.
  *
@@ -13,5 +15,5 @@ import lombok.Data;
 @Data
 public class GitHubRepositoriesResp {
     private Integer totalCount;
-    private GitHubRepositoriesNodesResp nodes;
+    private List<GitHubRepositoriesNodesResp> nodes;
 }

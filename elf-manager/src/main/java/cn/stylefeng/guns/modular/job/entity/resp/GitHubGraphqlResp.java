@@ -13,5 +13,5 @@ import lombok.Data;
 @Data
 public class GitHubGraphqlResp {
 
-    private GitHubSearchResp search;
+    private GitHubDataResp data;
 }

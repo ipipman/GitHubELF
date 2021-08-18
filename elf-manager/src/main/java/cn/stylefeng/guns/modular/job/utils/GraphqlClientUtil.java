@@ -1,5 +1,10 @@
 package cn.stylefeng.guns.modular.job.utils;
 
+import cn.stylefeng.guns.modular.job.entity.resp.GitHubDataResp;
+import cn.stylefeng.guns.modular.job.entity.resp.GitHubGraphqlResp;
+import cn.stylefeng.guns.modular.job.entity.resp.GitHubRepositoriesNodesResp;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import org.mountcloud.graphql.GraphqlClient;
 import org.mountcloud.graphql.request.query.DefaultGraphqlQuery;
 import org.mountcloud.graphql.request.query.GraphqlQuery;
@@ -25,8 +30,14 @@ public class GraphqlClientUtil {
         String json = "{\"query\":\"{ search(query:\\\"location:hangzhou\\\", type: USER, first:10, after:\\\"Y3Vyc29yOjEw\\\") { userCount pageInfo{ startCursor endCursor hasNextPage } edges { node { ... on User { id login avatarUrl email createdAt updatedAt company websiteUrl location bio following { totalCount } followers { totalCount } organizations( first:10) { totalCount nodes { id name avatarUrl websiteUrl } } repositories(first: 5, isFork: false, orderBy: {field: STARGAZERS, direction: DESC}) { totalCount nodes { stargazerCount forkCount isPrivate description repositoryTopics(first: 10) { totalCount nodes { topic { name } } } issues { totalCount } languages(first: 10) { nodes { name } } primaryLanguage{ name } } } } } } } }\"}";
         String serverUrl = "https://api.github.com/graphql";
         Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "bearer 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");
-        System.out.println(HttpClientUtil.doPostJson(serverUrl, json, headers));
+        headers.put("Authorization", "bearer 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");
+        String response = HttpClientUtil.doPostJson(serverUrl, json, headers);
+        System.out.println(response);
+        GitHubGraphqlResp gitHubDataResp = JSONObject.parseObject(response,
+                new TypeReference<GitHubGraphqlResp>() {
+                });
+        System.out.println(gitHubDataResp);
+        System.out.println(JSONObject.toJSON(gitHubDataResp));
 
     }
 }
