@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author ipman
@@ -52,5 +52,7 @@ public interface AreaMapper extends BaseMapper<Area> {
      * @Date 2021-08-15
      */
     Page<Map<String, Object>> customPageMapList(@Param("page") Page page, @Param("paramCondition") AreaParam paramCondition);
+
+    List<Area> selectAreaListByLevel(@Param("level") Integer level);
 
 }

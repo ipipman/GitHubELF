@@ -2,6 +2,7 @@ package cn.stylefeng.guns.base;
 
 import cn.stylefeng.guns.ElfApplication;
 import cn.stylefeng.guns.modular.job.handler.SyncGitHubUserHandler;
+import cn.stylefeng.guns.modular.job.service.ISyncGitHubUserService;
 import cn.stylefeng.guns.modular.job.utils.GraphqlClientUtil;
 import lombok.Getter;
 import lombok.NonNull;
@@ -57,10 +58,15 @@ public class BaseJunit {
     @Autowired
     private SyncGitHubUserHandler syncGitHubUserHandler;
 
+    @Autowired
+    private ISyncGitHubUserService syncGitHubUserService;
+
     @Test
     @SneakyThrows
     public void testSyncGitHubUserHandler() {
-        GraphqlClientUtil.test();
+        // GraphqlClientUtil.doPostJson("beijing", "Y3Vyc29yOjIw");
+        syncGitHubUserService.syncGitHubUserByLocation();
+
     }
 
 }

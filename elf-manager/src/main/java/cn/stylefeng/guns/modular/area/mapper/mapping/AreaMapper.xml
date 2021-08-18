@@ -24,11 +24,17 @@
         id AS "id", pid AS "pid", name AS "name", pinyin AS "pinyin", level AS "level", areatype AS "areatype", type_name AS "typeName", status AS "status", pid_name AS "pidName", area_id AS "areaId", code AS "code", destination_id AS "destinationId", pv AS "pv"
     </sql>
 
-
     <select id="customList" resultType="cn.stylefeng.guns.modular.area.model.result.AreaResult" parameterType="cn.stylefeng.guns.modular.area.model.params.AreaParam">
         select
         <include refid="Base_Column_List"/>
         from t_area where 1 = 1
+    </select>
+
+    <select id="selectAreaListByLevel" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from t_area where 1 = 1
+        and `level` = #{level, jdbcType=INTEGER}
     </select>
 
     <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.area.model.params.AreaParam">
