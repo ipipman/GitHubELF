@@ -27,6 +27,7 @@ import java.util.Map;
  */
 public class HttpClientUtil {
 
+
     public String doGet(String url, Map<String, String> param) throws IOException, URISyntaxException {
 
         // 创建Httpclient对象
@@ -137,4 +138,5 @@ public class HttpClientUtil {
         }
         return resultString;
     }
+
 }
