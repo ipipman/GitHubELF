@@ -67,9 +67,8 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
         GitHubSearchResp search = data.getSearch();
         GitHubPageInfoResp pageInfo = search.getPageInfo();
         if (userCount == null) {
-            log.info("，人数【"+ userCount+"】");
             userCount = Optional.ofNullable(search.getUserCount()).orElse(null);
-            return;
+            log.info("，人数【"+ userCount+"】");
         }
         after = pageInfo.getEndCursor();
         // 循环获取
