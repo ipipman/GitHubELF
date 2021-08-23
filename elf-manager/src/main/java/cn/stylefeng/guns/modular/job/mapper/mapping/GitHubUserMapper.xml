@@ -26,7 +26,7 @@
         user_id AS "userId", id AS "id", email AS "email", location AS "location", area_id AS "areaId", company AS "company", updated_at AS "updatedAt", avatar_url AS "avatarUrl", bio AS "bio", login AS "login", created_at AS "createdAt", git_age AS "gitAge", followers AS "followers", following AS "following", website_url AS "websiteUrl"
     </sql>
 
-    <insert id="insertUsers">
+    <insert id="insertUsers" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `t_user`(
         `email`,
         `location`,

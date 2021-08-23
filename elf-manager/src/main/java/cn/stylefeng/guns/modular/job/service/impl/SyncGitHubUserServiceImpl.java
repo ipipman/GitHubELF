@@ -5,12 +5,15 @@ import cn.stylefeng.guns.modular.area.entity.Area;
 import cn.stylefeng.guns.modular.area.mapper.AreaMapper;
 import cn.stylefeng.guns.modular.job.entity.User;
 import cn.stylefeng.guns.modular.job.entity.resp.*;
+import cn.stylefeng.guns.modular.job.mapper.GitHubUserMapper;
 import cn.stylefeng.guns.modular.job.service.ISyncGitHubUserService;
 import cn.stylefeng.guns.modular.job.utils.GraphqlClientUtil;
 import cn.stylefeng.roses.core.util.ToolUtil;
+import com.sun.org.apache.bcel.internal.generic.ConstantPushInstruction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -32,8 +35,14 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
 
     private final static Integer AREA_LEVEL = 2;
 
+    // 指定批量插入分页大小
+    private static final int MAX_LIST_SIZE = 5000;
+
     @Resource
     private AreaMapper areaMapper;
+
+    @Resource
+    private GitHubUserMapper gitHubUserMapper;
 
     private ConcurrentHashMap<String, CopyOnWriteArrayList<User>> userMapping = new ConcurrentHashMap<>();
 
@@ -63,6 +72,8 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
                 initUserMapping(area);
                 // 按分页获取用户信息
                 recursionUserPage(area, null, null);
+                // 消费用户Mapping表数据
+                consumerUser(area);
             } catch (RuntimeException | IOException e) {
                 log.error("Sync GitHub Graphql API City={}, Error={}", cityPinyin, e);
             } finally {
@@ -72,7 +83,31 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
         });
     }
 
+    /**
+     * 消费UserMapping数据，批量写入Mysql中
+     *
+     * @param area Area 城市
+     */
+    @Transactional(value = "transactionManager", rollbackFor = Exception.class)
+    public void consumerUser(Area area) {
+        CopyOnWriteArrayList<User> userList = userMapping.get(area.getPinyin());
+        if (userList.size() <= MAX_LIST_SIZE) {
+            gitHubUserMapper.insertUsers(userList);
+        } else {
+            int pages = (int) Math.ceil((double) userList.size() / (double) MAX_LIST_SIZE);
+            for (int i = 0; i < pages; i++) {
+                int fromIndex = i * MAX_LIST_SIZE;
+                int toIndex = Math.min((i + 1) * MAX_LIST_SIZE, userList.size());
+                gitHubUserMapper.insertUsers(userList.subList(fromIndex, toIndex));
+            }
+        }
+    }
 
+    /**
+     * 初始化用户Mapping数据
+     *
+     * @param area Area 城市
+     */
     private void initUserMapping(Area area) {
         String key = area.getPinyin();
         if (!userMapping.containsKey(key)) {
@@ -80,6 +115,11 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
         }
     }
 
+    /**
+     * 销毁用户Mapping数据
+     *
+     * @param area Area 城市
+     */
     private void destroyUserMapping(Area area) {
         userMapping.remove(area.getPinyin());
     }
@@ -105,7 +145,23 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
         }
         // 获取用户数据
         User userItem = new User();
+        transformUserItem(userItem, edgesNode);
         userItem.setAreaId(area.getId());
+
+        // 新增用户
+        String key = area.getPinyin();
+        CopyOnWriteArrayList<User> userList = userMapping.get(key);
+        userList.add(userItem);
+        userMapping.put(key, userList);
+    }
+
+    /**
+     * GitHub用户数据与Mysql用户数据转换
+     *
+     * @param userItem  用户POJO
+     * @param edgesNode GitHub用户信息
+     */
+    private void transformUserItem(User userItem, GitHubEdgesNodeResp edgesNode) {
         userItem.setId(edgesNode.getId());
         userItem.setEmail(edgesNode.getEmail());
         userItem.setLocation(Optional.ofNullable(edgesNode.getLocation()).orElse(""));
@@ -119,12 +175,6 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
         userItem.setFollowers(Optional.ofNullable(edgesNode.getFollowers().getTotalCount()).orElse(0));
         userItem.setFollowing(Optional.ofNullable(edgesNode.getFollowing().getTotalCount()).orElse(0));
         userItem.setWebsiteUrl(Optional.ofNullable(edgesNode.getWebsiteUrl()).orElse(""));
-
-        // 新增用户
-        String key = area.getPinyin();
-        CopyOnWriteArrayList<User> userList = userMapping.get(key);
-        userList.add(userItem);
-        userMapping.put(key, userList);
     }
 
     /**
@@ -138,10 +188,9 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
             throws RuntimeException, IOException {
         // 按城市请求GitHub Graphql OpenAPI 服务
         GitHubGraphqlResp resp = GraphqlClientUtil.doPostJson(area.getPinyin(), after);
-        if (!checkResponse(resp)) {
+        if (!checkResponse(resp) || ToolUtil.isEmpty(resp.getData())) {
             return;
         }
-
         // 处理GitHub返回的数据
         GitHubDataResp data = resp.getData();
         GitHubSearchResp search = data.getSearch();
@@ -151,16 +200,15 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
                 productionUser(area, edge.getNode());
             }
         }
-
         // 分页查询
         GitHubPageInfoResp pageInfo = search.getPageInfo();
         if (userCount == null) {
             userCount = Optional.ofNullable(search.getUserCount()).orElse(null);
             log.info("，人数【" + userCount + "】");
         }
-        after = pageInfo.getEndCursor();
         // 按分页循环获取
         while (userCount > 0) {
+            after = pageInfo.getEndCursor();
             recursionUserPage(area, after, userCount - 30);
         }
     }
