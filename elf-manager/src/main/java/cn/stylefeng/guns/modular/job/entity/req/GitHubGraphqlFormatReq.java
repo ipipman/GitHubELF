@@ -1,11 +1,9 @@
 package cn.stylefeng.guns.modular.job.entity.req;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,7 +28,7 @@ public class GitHubGraphqlFormatReq {
 
     static {
         SERVER_HANDLER = new ConcurrentHashMap<>();
-        SERVER_HANDLER.put("Authorization", "bearer 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");
+        SERVER_HANDLER.put("Authorization", "bearer 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");
     }
 
     public GitHubGraphqlFormatReq(String location, @Nullable String after) {

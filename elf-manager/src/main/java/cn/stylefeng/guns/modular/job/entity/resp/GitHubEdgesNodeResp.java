@@ -2,6 +2,7 @@ package cn.stylefeng.guns.modular.job.entity.resp;
 
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,8 +38,8 @@ public class GitHubEdgesNodeResp {
     private String login;
     private String avatarUrl;
     private String email;
-    private String createdAt;
-    private String updatedAt;
+    private Date createdAt;
+    private Date updatedAt;
     private String company;
     private String websiteUrl;
     private String location;

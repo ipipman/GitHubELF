@@ -53,6 +53,7 @@ public interface AreaMapper extends BaseMapper<Area> {
      */
     Page<Map<String, Object>> customPageMapList(@Param("page") Page page, @Param("paramCondition") AreaParam paramCondition);
 
+
     List<Area> selectAreaListByLevel(@Param("level") Integer level);
 
 }

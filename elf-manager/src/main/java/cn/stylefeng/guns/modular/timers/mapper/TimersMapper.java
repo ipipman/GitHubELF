@@ -1,5 +1,6 @@
 package cn.stylefeng.guns.modular.timers.mapper;
 
+import cn.stylefeng.guns.modular.job.entity.User;
 import cn.stylefeng.guns.modular.timers.entity.Timers;
 import cn.stylefeng.guns.modular.timers.model.params.TimersParam;
 import cn.stylefeng.guns.modular.timers.model.result.TimersResult;

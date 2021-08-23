@@ -1,0 +1,105 @@
+@layout("/common/_form.html",{js:["/assets/user/user_add.js"]}){
+
+<form class="layui-form" id="userForm" lay-filter="userForm">
+    <div class="layui-fluid" style="padding-bottom: 75px;">
+        <div class="layui-card">
+            <div class="layui-card-header">基本信息</div>
+            <div class="layui-card-body">
+                <div class="layui-form-item layui-row">
+                    <input name="userId" type="hidden"/>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">用户唯一标识<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="id" name="id" placeholder="请输入用户唯一标识" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">用户邮箱<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="email" name="email" placeholder="请输入用户邮箱" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">用户地理位置<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="location" name="location" placeholder="请输入用户地理位置" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">用户ID<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="areaId" name="areaId" placeholder="请输入用户ID" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">公司<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="company" name="company" placeholder="请输入公司" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">用户最新活跃时间<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="updatedAt" name="updatedAt" placeholder="请输入用户最新活跃时间" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">用户头像<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="avatarUrl" name="avatarUrl" placeholder="请输入用户头像" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">个人简介<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="bio" name="bio" placeholder="请输入个人简介" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">登录ID<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="login" name="login" placeholder="请输入登录ID" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">用户创建时间<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="createdAt" name="createdAt" placeholder="请输入用户创建时间" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">github年限<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="gitAge" name="gitAge" placeholder="请输入github年限" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">跟随者<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="followers" name="followers" placeholder="请输入跟随者" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label">关注过多个项目<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="following" name="following" placeholder="请输入关注过多个项目" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-col-md12">
+                        <label class="layui-form-label"> 个人博客<span style="color: red;">*</span></label>
+                        <div class="layui-input-block">
+                            <input id="websiteUrl" name="websiteUrl" placeholder="请输入 个人博客" type="text" class="layui-input" lay-verify="required" required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group-bottom text-center">
+        <button class="layui-btn" lay-filter="btnSubmit" lay-submit>&emsp;提交&emsp;</button>
+        <button type="reset" class="layui-btn layui-btn-primary" ew-event="closeDialog">&emsp;取消&emsp;</button>
+    </div>
+
+</form>
+
+@}

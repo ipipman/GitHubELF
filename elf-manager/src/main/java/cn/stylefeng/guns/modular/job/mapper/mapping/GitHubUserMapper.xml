@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.job.mapper.GitHubUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.job.entity.User">
+        <id column="user_id" property="userId" />
+        <result column="id" property="id" />
+        <result column="email" property="email" />
+        <result column="location" property="location" />
+        <result column="area_id" property="areaId" />
+        <result column="company" property="company" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="bio" property="bio" />
+        <result column="login" property="login" />
+        <result column="created_at" property="createdAt" />
+        <result column="git_age" property="gitAge" />
+        <result column="followers" property="followers" />
+        <result column="following" property="following" />
+        <result column="website_url" property="websiteUrl" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id AS "userId", id AS "id", email AS "email", location AS "location", area_id AS "areaId", company AS "company", updated_at AS "updatedAt", avatar_url AS "avatarUrl", bio AS "bio", login AS "login", created_at AS "createdAt", git_age AS "gitAge", followers AS "followers", following AS "following", website_url AS "websiteUrl"
+    </sql>
+
+    <insert id="insertUsers">
+        INSERT INTO `t_user`(
+        `email`,
+        `location`,
+        `area_id`,
+        `company`,
+        `updated_at`,
+        `avatar_url`,
+        `bio`,
+        `login`,
+        `created_at`,
+        `git_age`,
+        `followers`,
+        `following`,
+        `website_url`
+        )
+        VALUES
+        <foreach collection="userList" item="item" index="index" separator=",">
+            (
+            #{item.email, jdbcType=VARCHAR},
+            #{item.location, jdbcType=VARCHAR},
+            #{item.areaId, jdbcType=INTEGER},
+            #{item.company, jdbcType=VARCHAR},
+            #{item.updatedAt, jdbcType=TIMESTAMP},
+            #{item.avatarUrl, jdbcType=VARCHAR},
+            #{item.bio, jdbcType=VARCHAR},
+            #{item.login, jdbcType=VARCHAR},
+            #{item.createdAt, jdbcType=TIMESTAMP},
+            #{item.gitAge, jdbcType=INTEGER},
+            #{item.followers, jdbcType=INTEGER},
+            #{item.following, jdbcType=INTEGER},
+            #{item.websiteUrl, jdbcType=INTEGER}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        email = VALUES (email),
+        location = VALUES (location),
+        area_id = VALUES (area_id),
+        company = VALUES (company),
+        updated_at = VALUES (updated_at),
+        avatar_url = VALUES (avatar_url),
+        bio = VALUES (bio),
+        login = VALUES (login),
+        created_at = VALUES (created_at),
+        git_age = VALUES (git_age),
+        followers = VALUES (followers),
+        `following` = VALUES (`following`),
+        website_url = VALUES (website_url)
+    </insert>
+
+    <select id="customList" resultType="cn.stylefeng.guns.modular.job.model.result.UserResult" parameterType="cn.stylefeng.guns.modular.job.model.params.UserParam">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user where 1 = 1
+    </select>
+
+    <select id="customMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.job.model.params.UserParam">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user where 1 = 1
+    </select>
+
+    <select id="customPageList" resultType="cn.stylefeng.guns.modular.job.model.result.UserResult" parameterType="cn.stylefeng.guns.modular.job.model.params.UserParam">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user where 1 = 1
+    </select>
+
+    <select id="customPageMapList" resultType="map" parameterType="cn.stylefeng.guns.modular.job.model.params.UserParam">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user where 1 = 1
+    </select>
+
+</mapper>
