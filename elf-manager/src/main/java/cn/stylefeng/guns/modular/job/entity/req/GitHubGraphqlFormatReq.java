@@ -28,7 +28,7 @@ public class GitHubGraphqlFormatReq {
 
     static {
         SERVER_HANDLER = new ConcurrentHashMap<>();
-        SERVER_HANDLER.put("Authorization", "bearer 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");
+        SERVER_HANDLER.put("Authorization", "bearer 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");
     }
 
     public GitHubGraphqlFormatReq(String location, @Nullable String after) {

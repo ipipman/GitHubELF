@@ -1,6 +1,7 @@
 package cn.stylefeng.guns.modular.job.utils;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 /**
  * 2018/2/10. http util
+ *
  * @author zhanghaishan
  * @version V1.0
  */
@@ -67,7 +69,7 @@ public class HttpClientUtil {
         return doGet(url, null);
     }
 
-    public String doPost(String url, Map<String, String> param,Map<String,String> headers) throws IOException {
+    public String doPost(String url, Map<String, String> param, Map<String, String> headers) throws IOException {
         // 创建Httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
@@ -82,40 +84,41 @@ public class HttpClientUtil {
                     paramList.add(new BasicNameValuePair(key, param.get(key)));
                 }
                 // 模拟表单
-                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList,"utf-8");
+                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList, "utf-8");
                 httpPost.setEntity(entity);
             }
             // 设置请求头
             if (headers != null) {
                 for (String key : headers.keySet()) {
-                    httpPost.addHeader(key,headers.get(key));
+                    httpPost.addHeader(key, headers.get(key));
                 }
             }
             // 执行http请求
             response = httpClient.execute(httpPost);
             resultString = EntityUtils.toString(response.getEntity(), "utf-8");
-        }finally {
+        } finally {
             response.close();
         }
 
         return resultString;
     }
 
-    public String doPost(String url,Map<String, String> param) throws IOException {
-        return doPost(url, param,null);
+    public String doPost(String url, Map<String, String> param) throws IOException {
+        return doPost(url, param, null);
     }
 
     public String doPost(String url) throws IOException {
-        return doPost(url, null,null);
+        return doPost(url, null, null);
     }
 
-    public String doPostJson(String url,String json) throws IOException {
-        return doPostJson(url,json,null);
+    public String doPostJson(String url, String json) throws IOException {
+        return doPostJson(url, json, null);
     }
 
-    public static String doPostJson(String url, String json,Map<String,String> headers) throws IOException {
+    public static String doPostJson(String url, String json, Map<String, String> headers) throws IOException {
         // 创建Httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
+
         CloseableHttpResponse response = null;
         String resultString = null;
         try {
@@ -124,16 +127,22 @@ public class HttpClientUtil {
             // 设置请求头
             if (headers != null) {
                 for (String key : headers.keySet()) {
-                    httpPost.addHeader(key,headers.get(key));
+                    httpPost.addHeader(key, headers.get(key));
                 }
             }
+            // 设置配置
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setSocketTimeout(30000)
+                    .setConnectTimeout(20000)
+                    .build();
+            httpPost.setConfig(requestConfig);
             // 创建请求内容
             StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
             httpPost.setEntity(entity);
             // 执行http请求
             response = httpClient.execute(httpPost);
             resultString = EntityUtils.toString(response.getEntity(), "utf-8");
-        }finally {
+        } finally {
             response.close();
         }
         return resultString;

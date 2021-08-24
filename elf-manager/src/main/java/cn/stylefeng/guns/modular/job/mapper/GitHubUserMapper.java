@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author ipman
@@ -54,5 +54,10 @@ public interface GitHubUserMapper extends BaseMapper<User> {
     Page<Map<String, Object>> customPageMapList(@Param("page") Page page, @Param("paramCondition") UserParam paramCondition);
 
 
+    /**
+     * 批量写入或更新数据
+     *
+     * @param userList 用户列表
+     */
     void insertUsers(@Param("userList") List<User> userList);
 }

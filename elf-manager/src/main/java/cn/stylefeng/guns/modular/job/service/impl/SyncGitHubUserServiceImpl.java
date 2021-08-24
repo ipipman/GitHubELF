@@ -91,7 +91,9 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
     @Transactional(value = "transactionManager", rollbackFor = Exception.class)
     public void consumerUser(Area area) {
         CopyOnWriteArrayList<User> userList = userMapping.get(area.getPinyin());
-        if (userList.size() <= MAX_LIST_SIZE) {
+        if (userList.isEmpty()) {
+            return;
+        } else if (userList.size() <= MAX_LIST_SIZE) {
             gitHubUserMapper.insertUsers(userList);
         } else {
             int pages = (int) Math.ceil((double) userList.size() / (double) MAX_LIST_SIZE);
@@ -164,17 +166,38 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
     private void transformUserItem(User userItem, GitHubEdgesNodeResp edgesNode) {
         userItem.setId(edgesNode.getId());
         userItem.setEmail(edgesNode.getEmail());
+        if (userItem.getEmail().length() > 90) {
+            userItem.setEmail(userItem.getEmail().substring(0, 90));
+        }
         userItem.setLocation(Optional.ofNullable(edgesNode.getLocation()).orElse(""));
+        if (userItem.getLocation().length() > 90) {
+            userItem.setLocation(userItem.getLocation().substring(0, 90));
+        }
         userItem.setCompany(Optional.ofNullable(edgesNode.getCompany()).orElse(""));
+        if (userItem.getCompany().length() > 90) {
+            userItem.setCompany(userItem.getCompany().substring(0, 90));
+        }
         userItem.setUpdatedAt(edgesNode.getUpdatedAt());
         userItem.setAvatarUrl(Optional.ofNullable(edgesNode.getAvatarUrl()).orElse(""));
+        if (userItem.getAvatarUrl().length() > 190) {
+            userItem.setAvatarUrl(userItem.getAvatarUrl().substring(0, 190));
+        }
         userItem.setBio(Optional.ofNullable(edgesNode.getBio()).orElse(""));
+        if (userItem.getBio().length() > 240){
+            userItem.setBio(userItem.getBio().substring(0, 240));
+        }
         userItem.setLogin(Optional.ofNullable(edgesNode.getLogin()).orElse(""));
+        if (userItem.getLogin().length() > 240){
+            userItem.setLogin(userItem.getLogin().substring(0, 240));
+        }
         userItem.setCreatedAt(edgesNode.getCreatedAt());
         userItem.setGitAge(differentYears(userItem.getCreatedAt(), new Date()));
         userItem.setFollowers(Optional.ofNullable(edgesNode.getFollowers().getTotalCount()).orElse(0));
         userItem.setFollowing(Optional.ofNullable(edgesNode.getFollowing().getTotalCount()).orElse(0));
         userItem.setWebsiteUrl(Optional.ofNullable(edgesNode.getWebsiteUrl()).orElse(""));
+        if (userItem.getWebsiteUrl().length() > 240){
+            userItem.setWebsiteUrl(userItem.getWebsiteUrl().substring(0, 240));
+        }
     }
 
     /**
@@ -186,6 +209,9 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
      */
     private void recursionUserPage(Area area, @Nullable String after, @Nullable Integer userCount)
             throws RuntimeException, IOException {
+        if (userCount != null && userCount < 0) {
+            return;
+        }
         // 按城市请求GitHub Graphql OpenAPI 服务
         GitHubGraphqlResp resp = GraphqlClientUtil.doPostJson(area.getPinyin(), after);
         if (!checkResponse(resp) || ToolUtil.isEmpty(resp.getData())) {
@@ -207,9 +233,11 @@ public class SyncGitHubUserServiceImpl implements ISyncGitHubUserService {
             log.info("，人数【" + userCount + "】");
         }
         // 按分页循环获取
-        while (userCount > 0) {
-            after = pageInfo.getEndCursor();
-            recursionUserPage(area, after, userCount - 30);
+        after = pageInfo.getEndCursor();
+        System.out.println(userCount);
+        userCount -= 30;
+        if (userCount > 0) {
+            recursionUserPage(area, after, userCount);
         }
     }
 

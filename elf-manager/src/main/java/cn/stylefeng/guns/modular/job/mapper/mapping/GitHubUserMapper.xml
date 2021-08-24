@@ -29,6 +29,7 @@
     <insert id="insertUsers" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `t_user`(
         `email`,
+        `id`,
         `location`,
         `area_id`,
         `company`,
@@ -46,6 +47,7 @@
         <foreach collection="userList" item="item" index="index" separator=",">
             (
             #{item.email, jdbcType=VARCHAR},
+            #{item.id, jdbcType=VARCHAR},
             #{item.location, jdbcType=VARCHAR},
             #{item.areaId, jdbcType=INTEGER},
             #{item.company, jdbcType=VARCHAR},
@@ -62,6 +64,7 @@
         </foreach>
         ON DUPLICATE KEY UPDATE
         email = VALUES (email),
+        id = VALUES (id),
         location = VALUES (location),
         area_id = VALUES (area_id),
         company = VALUES (company),
